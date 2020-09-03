@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>끝말잇기</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-</head>
-<body>
-  <div id="root">
-    <div>{{ word }}</div>
-    <form v-on:submit="onSubmitForm">
-      <input type="text" ref="answer" v-model="value">
-      <button type="submit">text</button>
-    </form>
-    <div>{{ result }}</div>
-  </div>
-  <script>
-    const app = new Vue({
-      el: '#root',
-      data:{
-        word:'고구마',
-        result:'',
-        value:'',
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <word-relay start-word="고구마"></word-relay>
+      <word-relay start-word="베이글"></word-relay>
+      <word-relay start-word="짬뽕"></word-relay>
+    </div>
+    <script>
+      Vue.component("wordRelay", {
+        template: `
+        <div>
+          <div>{{ word }}</div>
+          <form v-on:submit="onSubmitForm">
+            <input type="text" ref="answer" v-model="value">
+            <button type="submit">text</button>
+          </form>
+          <div>{{ result }}</div>
+        </div>
+      `,
+        props: ["startWord"],
+        data() {
+          return {
+            word: this.startWord,
+            result: "",
+            value: "",
+          };
         },
-      methods:{
-        onSubmitForm(e){
-          e.preventDefault();
-          if(this.word[this.word.length-1]=== this.value[0]){
-            this.result = 'o';
-            this.word = this.value;
-            this.value = '';
-            this.$refs.answer.focus();
-          } else {
-            this.result = 'x';
-            this.value = '';
-          }
-        }
-      },
-    });
-  </script>
-</body>
+        methods: {
+          onSubmitForm(e) {
+            e.preventDefault();
+            if (this.word[this.word.length - 1] === this.value[0]) {
+              this.result = "o";
+              this.word = this.value;
+              this.value = "";
+              this.$refs.answer.focus();
+            } else {
+              this.result = "x";
+              this.value = "";
+            }
+          },
+        },
+      });
+    </script>
+    <script>
+      const app = new Vue({
+        el: "#root",
+      });
+    </script>
+  </body>
 </html>
